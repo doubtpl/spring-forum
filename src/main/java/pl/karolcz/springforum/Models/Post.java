@@ -1,10 +1,16 @@
 package pl.karolcz.springforum.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,9 +20,6 @@ public class Post {
     private User user;
 
     private String body;
-
-    public Post() {
-    }
 
     @Override
     public String toString() {

@@ -2,12 +2,15 @@ package pl.karolcz.springforum.Services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.karolcz.springforum.Models.Post;
 import pl.karolcz.springforum.Models.User;
 import pl.karolcz.springforum.Repositories.PostRepository;
 import pl.karolcz.springforum.Repositories.UserRepository;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -22,12 +25,13 @@ public class PostService {
     }
 
     public ResponseEntity addPost(String body, String username) {
-        User user = userRepository.findByUsername(username);
-        Post post = new Post();
-        post.setUser(user);
-        post.setBody(body);
-        postRepository.save(post);
+        Optional<User> user = userRepository.findByUsername(username);
 
-        return ResponseEntity.ok().build();
+        return user
+                .map(theUser -> {
+                    Post post = Post.builder().body(body).user(theUser).build();
+                    postRepository.save(post);
+                    return new ResponseEntity<>(HttpStatus.CREATED);
+                }).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 }

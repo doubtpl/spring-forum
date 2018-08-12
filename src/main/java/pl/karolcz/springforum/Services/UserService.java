@@ -2,13 +2,13 @@ package pl.karolcz.springforum.Services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.karolcz.springforum.Models.Post;
 import pl.karolcz.springforum.Models.User;
 import pl.karolcz.springforum.Repositories.UserRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -21,22 +21,29 @@ public class UserService {
     }
 
     public ResponseEntity addUser(String username, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        userRepository.save(user);
+        User newUser = User.builder().username(username).password(password).build();
+        Optional<User> user = userRepository.findByUsername(username);
 
-        return ResponseEntity.ok().build();
+        return user
+                .map(theUser -> new ResponseEntity<>(HttpStatus.CONFLICT))
+                .orElseGet(() -> {
+                    log.debug("wtf");
+                    userRepository.save(newUser);
+                    return new ResponseEntity<>(HttpStatus.CREATED);
+                });
     }
 
     public ResponseEntity getAllUserPosts(String username) {
-        User user = userRepository.findByUsername(username);
-        List<Post> posts = user.getPosts();
-        return ResponseEntity.accepted().body(posts);
+        Optional<User> user = userRepository.findByUsername(username);
+        return user
+                .map(theUser -> new ResponseEntity<>(theUser.getPosts(), HttpStatus.FOUND))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     public ResponseEntity getUser(String username) {
-        User user = userRepository.findByUsername(username);
-        return ResponseEntity.ok().body(user);
+        Optional<User> user = userRepository.findByUsername(username);
+        return user
+                .map(theUser -> new ResponseEntity<>(theUser, HttpStatus.FOUND))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

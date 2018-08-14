@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import pl.karolcz.springforum.post.Post;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,8 +22,8 @@ public class User {
     private String username;
     private String password;
 
-    @OneToMany(mappedBy = "user", targetEntity = Post.class, fetch = FetchType.EAGER)
-    private List<Post> posts;
+    @OneToMany(mappedBy = "user", targetEntity = Post.class, fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -31,6 +32,10 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -58,5 +63,4 @@ public class User {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
-
 }

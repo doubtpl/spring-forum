@@ -1,9 +1,8 @@
 package pl.karolcz.springforum.ServicesTests;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +15,12 @@ import pl.karolcz.springforum.post.PostService;
 import pl.karolcz.springforum.user.User;
 import pl.karolcz.springforum.user.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PostServiceTests {
 
     @Autowired
@@ -31,12 +31,13 @@ class PostServiceTests {
     PostService postService;
 
     private User user;
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
-    @BeforeAll
+    @BeforeEach
     void init() {
         this.user = userRepository.findByUsername("James").get();
-        posts = user.getPosts();
+        posts.clear();
+        postRepository.findAll().forEach(posts::add);
     }
 
     @Test
@@ -49,5 +50,17 @@ class PostServiceTests {
     void addNotValidPost() {
         ResponseEntity response = postService.addPost("Body of post that has bad user assigned", "Max");
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void getExistingUserPosts() {
+        ResponseEntity response = postService.findAllByUser(this.user.getUsername());
+        Assertions.assertEquals(posts.toString(), Objects.requireNonNull(response.getBody()).toString());
+    }
+
+    @Test
+    void getNotExistingUserPosts() {
+        ResponseEntity response = postService.findAllByUser("Elton");
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

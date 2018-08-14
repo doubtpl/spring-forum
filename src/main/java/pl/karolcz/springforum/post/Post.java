@@ -1,5 +1,6 @@
 package pl.karolcz.springforum.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -43,5 +44,10 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    @JsonIgnore
+    public User getUser() {
+        return user;
     }
 }

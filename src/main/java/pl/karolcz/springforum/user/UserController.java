@@ -23,11 +23,6 @@ public class UserController {
         return userService.addUser(credentials.get("username"), credentials.get("password"));
     }
 
-    @GetMapping("/{username}/posts")
-    public ResponseEntity getAllUserPosts(@PathVariable("username") String username) {
-        return userService.getAllUserPosts(username);
-    }
-
     @GetMapping("/{username}")
     public ResponseEntity getUser(@PathVariable("username") String username) {
         return userService.getUser(username);

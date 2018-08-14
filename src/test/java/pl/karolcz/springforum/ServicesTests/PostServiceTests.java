@@ -16,7 +16,8 @@ import pl.karolcz.springforum.post.PostService;
 import pl.karolcz.springforum.user.User;
 import pl.karolcz.springforum.user.UserRepository;
 
-import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -31,10 +32,11 @@ class PostServiceTests {
     PostService postService;
 
     private User user;
-    private List<Post> posts;
+    private Set<Post> posts;
 
     @BeforeAll
     void init() {
+        userRepository.findAll().forEach(System.out::println);
         this.user = userRepository.findByUsername("James").get();
         posts = user.getPosts();
     }
@@ -49,5 +51,17 @@ class PostServiceTests {
     void addNotValidPost() {
         ResponseEntity response = postService.addPost("Body of post that has bad user assigned", "Max");
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void getExistingUserPosts() {
+        ResponseEntity response = postService.findAllByUser(this.user.getUsername());
+        Assertions.assertEquals(posts.toString(), Objects.requireNonNull(response.getBody()).toString());
+    }
+
+    @Test
+    void getNotExistingUserPosts() {
+        ResponseEntity response = postService.findAllByUser("Elton");
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

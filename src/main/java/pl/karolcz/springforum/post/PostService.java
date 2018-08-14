@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.karolcz.springforum.user.User;
 import pl.karolcz.springforum.user.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,15 @@ public class PostService {
                     postRepository.save(post);
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 }).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
+
+    public ResponseEntity findAllByUser(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        return user
+                .map(theUser -> {
+                    List posts = postRepository.findAllByUser(theUser);
+                    return new ResponseEntity<>(posts, HttpStatus.OK);
+                })
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

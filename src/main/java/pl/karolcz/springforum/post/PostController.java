@@ -2,10 +2,7 @@ package pl.karolcz.springforum.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -23,5 +20,10 @@ public class PostController {
     @PostMapping("/add")
     public ResponseEntity addPost(@RequestBody Map<String, String> data) {
         return postService.addPost(data.get("body"), data.get("username"));
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity getAllUserPosts(@PathVariable("username") String username) {
+        return postService.findAllByUser(username);
     }
 }

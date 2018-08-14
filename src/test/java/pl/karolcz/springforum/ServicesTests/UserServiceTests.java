@@ -16,8 +16,8 @@ import pl.karolcz.springforum.user.User;
 import pl.karolcz.springforum.user.UserRepository;
 import pl.karolcz.springforum.user.UserService;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -32,7 +32,7 @@ class UserServiceTests {
     UserService userService;
 
     private User user;
-    private List<Post> posts;
+    private Set<Post> posts;
 
     @BeforeAll
     void init() {
@@ -50,18 +50,6 @@ class UserServiceTests {
     void addNotExistingUser() {
         ResponseEntity response = userService.addUser("John", "aaa");
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @Test
-    void getExistingUserPosts() {
-        ResponseEntity response = userService.getAllUserPosts(this.user.getUsername());
-        Assertions.assertEquals(posts.toString(), Objects.requireNonNull(response.getBody()).toString());
-    }
-
-    @Test
-    void getNotExistingUserPosts() {
-        ResponseEntity response = userService.getAllUserPosts("Elton");
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test

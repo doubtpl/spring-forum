@@ -30,13 +30,6 @@ public class UserService {
                 });
     }
 
-    public ResponseEntity getAllUserPosts(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        return user
-                .map(theUser -> new ResponseEntity<>(theUser.getPosts(), HttpStatus.FOUND))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     public ResponseEntity getUser(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         return user

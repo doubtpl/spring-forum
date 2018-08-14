@@ -1,9 +1,8 @@
 package pl.karolcz.springforum.ServicesTests;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,12 +15,12 @@ import pl.karolcz.springforum.post.PostService;
 import pl.karolcz.springforum.user.User;
 import pl.karolcz.springforum.user.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PostServiceTests {
 
     @Autowired
@@ -32,13 +31,13 @@ class PostServiceTests {
     PostService postService;
 
     private User user;
-    private Set<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
-    @BeforeAll
+    @BeforeEach
     void init() {
-        userRepository.findAll().forEach(System.out::println);
         this.user = userRepository.findByUsername("James").get();
-        posts = user.getPosts();
+        posts.clear();
+        postRepository.findAll().forEach(posts::add);
     }
 
     @Test

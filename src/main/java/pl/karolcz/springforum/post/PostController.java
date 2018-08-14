@@ -11,7 +11,6 @@ import java.util.Map;
 public class PostController {
     private final PostService postService;
 
-
     @Autowired
     public PostController(PostService postService) {
         this.postService = postService;

@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import pl.karolcz.springforum.post.Post;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -23,7 +23,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", targetEntity = Post.class, fetch = FetchType.LAZY)
-    private Set<Post> posts = new HashSet<>();
+    private List<Post> posts = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -55,11 +55,12 @@ public class User {
         this.password = password;
     }
 
-    public Set<Post> getPosts() {
+    @JsonIgnore
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set<Post> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 }

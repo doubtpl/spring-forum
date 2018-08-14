@@ -1,9 +1,8 @@
 package pl.karolcz.springforum.ServicesTests;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,12 +15,12 @@ import pl.karolcz.springforum.user.User;
 import pl.karolcz.springforum.user.UserRepository;
 import pl.karolcz.springforum.user.UserService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserServiceTests {
 
     @Autowired
@@ -32,12 +31,13 @@ class UserServiceTests {
     UserService userService;
 
     private User user;
-    private Set<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
-    @BeforeAll
+    @BeforeEach
     void init() {
         this.user = userRepository.findByUsername("James").get();
-        posts = user.getPosts();
+        posts.clear();
+        postRepository.findAll().forEach(posts::add);
     }
 
     @Test
@@ -60,7 +60,8 @@ class UserServiceTests {
 
     @Test
     void getNotExistingUser() {
-        ResponseEntity response = userService.getUser("Elton");
+        ResponseEntity response = userService.getUser("quiteLongStringSoNooneWillAddUserWithThatUsername" +
+                "ToTheDemoDataClass");
         Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

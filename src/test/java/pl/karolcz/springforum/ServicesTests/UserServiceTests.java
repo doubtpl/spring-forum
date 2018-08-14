@@ -10,11 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.karolcz.springforum.Models.Post;
-import pl.karolcz.springforum.Models.User;
-import pl.karolcz.springforum.Repositories.PostRepository;
-import pl.karolcz.springforum.Repositories.UserRepository;
-import pl.karolcz.springforum.Services.UserService;
+import pl.karolcz.springforum.post.Post;
+import pl.karolcz.springforum.post.PostRepository;
+import pl.karolcz.springforum.user.User;
+import pl.karolcz.springforum.user.UserRepository;
+import pl.karolcz.springforum.user.UserService;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +37,7 @@ class UserServiceTests {
     @BeforeAll
     void init() {
         this.user = userRepository.findByUsername("James").get();
-        this.posts = postRepository.findAllByUser(this.user);
+        posts = user.getPosts();
     }
 
     @Test

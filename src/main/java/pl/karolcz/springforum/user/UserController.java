@@ -1,10 +1,9 @@
-package pl.karolcz.springforum.Controllers;
+package pl.karolcz.springforum.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.karolcz.springforum.Services.UserService;
 
 import java.util.Map;
 

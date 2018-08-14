@@ -1,4 +1,4 @@
-package pl.karolcz.springforum.Configs;
+package pl.karolcz.springforum.application;
 
 import org.springframework.context.annotation.Configuration;
 

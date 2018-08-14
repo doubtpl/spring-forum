@@ -1,7 +1,6 @@
-package pl.karolcz.springforum.Repositories;
+package pl.karolcz.springforum.user;
 
 import org.springframework.data.repository.CrudRepository;
-import pl.karolcz.springforum.Models.User;
 
 import java.util.Optional;
 

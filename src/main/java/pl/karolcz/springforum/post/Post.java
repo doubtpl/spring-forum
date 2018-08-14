@@ -1,9 +1,9 @@
-package pl.karolcz.springforum.Models;
+package pl.karolcz.springforum.post;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import pl.karolcz.springforum.user.User;
 
 import javax.persistence.*;
 
@@ -23,7 +23,7 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "post{" +
                 "id=" + id +
                 ", body='" + body + '\'' +
                 '}';
@@ -31,11 +31,6 @@ public class Post {
 
     public Long getId() {
         return id;
-    }
-
-    @JsonIgnore
-    public User getUser() {
-        return user;
     }
 
     public void setUser(User user) {

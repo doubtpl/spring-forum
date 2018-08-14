@@ -1,14 +1,12 @@
-package pl.karolcz.springforum.Services;
+package pl.karolcz.springforum.post;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.karolcz.springforum.Models.Post;
-import pl.karolcz.springforum.Models.User;
-import pl.karolcz.springforum.Repositories.PostRepository;
-import pl.karolcz.springforum.Repositories.UserRepository;
+import pl.karolcz.springforum.user.User;
+import pl.karolcz.springforum.user.UserRepository;
 
 import java.util.Optional;
 

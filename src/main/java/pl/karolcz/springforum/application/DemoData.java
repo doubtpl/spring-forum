@@ -1,19 +1,19 @@
-package pl.karolcz.springforum;
+package pl.karolcz.springforum.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import pl.karolcz.springforum.Models.Post;
-import pl.karolcz.springforum.Models.User;
-import pl.karolcz.springforum.Repositories.PostRepository;
-import pl.karolcz.springforum.Repositories.UserRepository;
+import pl.karolcz.springforum.post.Post;
+import pl.karolcz.springforum.post.PostRepository;
+import pl.karolcz.springforum.user.User;
+import pl.karolcz.springforum.user.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class DemoData {
+class DemoData {
 
     private final
     UserRepository userRepository;

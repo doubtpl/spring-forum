@@ -1,12 +1,10 @@
-package pl.karolcz.springforum.Services;
+package pl.karolcz.springforum.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.karolcz.springforum.Models.User;
-import pl.karolcz.springforum.Repositories.UserRepository;
 
 import java.util.Optional;
 
@@ -27,7 +25,6 @@ public class UserService {
         return user
                 .map(theUser -> new ResponseEntity<>(HttpStatus.CONFLICT))
                 .orElseGet(() -> {
-                    log.debug("wtf");
                     userRepository.save(newUser);
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 });

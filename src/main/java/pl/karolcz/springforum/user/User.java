@@ -1,9 +1,10 @@
-package pl.karolcz.springforum.Models;
+package pl.karolcz.springforum.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import pl.karolcz.springforum.post.Post;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,7 +26,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "user{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
